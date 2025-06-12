@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Llogaritje Xhamat Slide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label, select, input {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .results {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .results p {
+      margin: 8px 0;
+    }
+    .divider {
+      margin-top: 30px;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Llogaritje Xhamat Slide</h1>
+
+  <label for="width">Gjerësia (cm):</label>
+  <input type="number" id="width" placeholder="Shkruaj gjerësinë">
+
+  <label for="height">Lartësia (cm):</label>
+  <input type="number" id="height" placeholder="Shkruaj lartësinë">
+
+  <label for="threshold">Zgjidh pragun:</label>
+  <select id="threshold">
+    <option value="high">Prag i lartë</option>
+    <option value="low">Prag i ulët</option>
+  </select>
+
+  <label for="glassParts">Xhamat (sa pjesë):</label>
+  <select id="glassParts">
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select>
+
+  <button onclick="calculate()">Llogarit</button>
+
+  <div class="results" id="results" style="display:none;">
+    <h2>Rezultatet:</h2>
+    <p><strong>Profili i sipërm:</strong> <span id="topProfile"></span> cm</p>
+    <p><strong>Ansoret:</strong> <span id="sideProfiles"></span> cm</p>
+    <p><strong>Pragu poshtë:</strong> <span id="bottomThreshold"></span> cm</p>
+
+    <div class="divider">
+      <p><strong>Gjerësia për çdo xham:</strong> <span id="glassWidth"></span> cm</p>
+      <p><strong>Lartësia e xhamit:</strong> <span id="glassHeight"></span> cm</p>
+    </div>
+  </div>
+
+  <script>
+    function calculate() {
+      const width = parseFloat(document.getElementById('width').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const threshold = document.getElementById('threshold').value;
+      const glassParts = parseInt(document.getElementById('glassParts').value);
+
+      if (isNaN(width) || isNaN(height) || width <= 0 || height <= 0) {
+        alert("Ju lutem jepni gjerësi dhe lartësi të vlefshme.");
+        return;
+      }
+
+      const topProfile = (width - 3).toFixed(2);
+      const sideProfiles = threshold === 'high' ? (height - 10.5).toFixed(2) : (height - 6.5).toFixed(2);
+      const glassWidth = (width / glassParts).toFixed(2);
+      const glassHeight = threshold === 'high' ? (height - 14.5).toFixed(2) : (height - 12).toFixed(2);
+      const bottomThreshold = threshold === 'high' ? (width - 10.5).toFixed(2) : width.toFixed(2);
+
+      document.getElementById('topProfile').textContent = topProfile;
+      document.getElementById('sideProfiles').textContent = sideProfiles;
+      document.getElementById('glassWidth').textContent = glassWidth;
+      document.getElementById('glassHeight').textContent = glassHeight;
+      document.getElementById('bottomThreshold').textContent = bottomThreshold;
+      document.getElementById('results').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
